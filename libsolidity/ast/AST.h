@@ -602,10 +602,11 @@ public:
 	void accept(ASTVisitor& _visitor) override;
 	void accept(ASTConstVisitor& _visitor) const override;
 
-	std::vector<ASTPointer<VariableDeclaration>> const& parameters() const { return m_parameters; }
+	std::vector<ASTPointer<VariableDeclaration>> const& parameters() { return m_parameters; }
+	std::vector<ASTPointer<VariableDeclaration const>> const& parameters() const { return m_parameters; }
 
 private:
-	std::vector<ASTPointer<VariableDeclaration>> m_parameters;
+	ASTPtrVec<VariableDeclaration> m_parameters;
 };
 
 /**

@@ -829,7 +829,7 @@ bool ContractCompiler::visit(TryStatement const& _tryStatement)
 			vector<TypePointer> exprTypes{_tryStatement.externalCall().annotation().type};
 			if (auto tupleType = dynamic_cast<TupleType const*>(exprTypes.front()))
 				exprTypes = tupleType->components();
-			vector<ASTPointer<VariableDeclaration>> const& params = successClause.parameters()->parameters();
+			vector<ASTPointer<VariableDeclaration const>> const& params = successClause.parameters()->parameters();
 			solAssert(exprTypes.size() == params.size(), "");
 			for (size_t i = 0; i < exprTypes.size(); ++i)
 				solAssert(params[i] && exprTypes[i] && *params[i]->annotation().type == *exprTypes[i], "");
@@ -962,7 +962,7 @@ bool ContractCompiler::visit(TryCatchClause const& _clause)
 	unsigned varSize = 0;
 
 	if (_clause.parameters())
-		for (ASTPointer<VariableDeclaration> const& varDecl: _clause.parameters()->parameters() | boost::adaptors::reversed)
+		for (ASTPointer<VariableDeclaration const> const& varDecl: _clause.parameters()->parameters() | boost::adaptors::reversed)
 		{
 			solAssert(varDecl, "");
 			varSize += varDecl->annotation().type->sizeOnStack();
@@ -1111,7 +1111,7 @@ bool ContractCompiler::visit(Return const& _return)
 	if (Expression const* expression = _return.expression())
 	{
 		solAssert(_return.annotation().functionReturnParameters, "Invalid return parameters pointer.");
-		vector<ASTPointer<VariableDeclaration>> const& returnParameters =
+		vector<ASTPointer<VariableDeclaration const>> const& returnParameters =
 			_return.annotation().functionReturnParameters->parameters();
 		TypePointers types;
 		for (auto const& retVariable: returnParameters)

@@ -815,7 +815,7 @@ void TypeChecker::endVisit(TryStatement const& _tryStatement)
 			m_evmVersion.supportsReturndata() ?
 			functionType.returnParameterTypes() :
 			functionType.returnParameterTypesWithoutDynamicTypes();
-		std::vector<ASTPointer<VariableDeclaration>> const& parameters =
+		std::vector<ASTPointer<VariableDeclaration const>> const& parameters =
 			successClause.parameters()->parameters();
 		if (returnTypes.size() != parameters.size())
 			m_errorReporter.typeError(

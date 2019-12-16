@@ -282,7 +282,7 @@ void IRGeneratorForStatements::endVisit(Return const& _return)
 	if (Expression const* value = _return.expression())
 	{
 		solAssert(_return.annotation().functionReturnParameters, "Invalid return parameters pointer.");
-		vector<ASTPointer<VariableDeclaration>> const& returnParameters =
+		vector<ASTPointer<VariableDeclaration const>> const& returnParameters =
 			_return.annotation().functionReturnParameters->parameters();
 		TypePointers types;
 		for (auto const& retVariable: returnParameters)
