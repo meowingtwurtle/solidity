@@ -38,6 +38,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 namespace yul
@@ -92,8 +93,8 @@ public:
 	}
 
 	/// @returns a copy of the vector containing only the nodes which derive from T.
-	template <class _T>
-	static std::vector<_T const*> filteredNodes(std::vector<ASTPointer<ASTNode>> const& _nodes);
+	template <class _T, typename NodeType, typename = std::enable_if_t<std::is_same_v<std::remove_const_t<NodeType>, ASTNode>>>
+	static std::vector<_T const*> filteredNodes(std::vector<ASTPointer<NodeType>> const& _nodes);
 
 	/// Returns the source code location of this node.
 	SourceLocation const& location() const { return m_location; }
@@ -117,8 +118,8 @@ private:
 	SourceLocation m_location;
 };
 
-template <class _T>
-std::vector<_T const*> ASTNode::filteredNodes(std::vector<ASTPointer<ASTNode>> const& _nodes)
+template <class _T, typename NodeType, typename>
+std::vector<_T const*> ASTNode::filteredNodes(std::vector<ASTPointer<NodeType>> const& _nodes)
 {
 	std::vector<_T const*> ret;
 	for (auto const& n: _nodes)
