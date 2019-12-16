@@ -23,7 +23,9 @@
 #pragma once
 
 #include <memory>
+#include <iterator>
 #include <string>
+#include <utility>
 #include <vector>
 
 // Forward-declare all AST node types and related enums.
@@ -106,5 +108,78 @@ using ASTPointer = std::shared_ptr<T>;
 
 using ASTString = std::string;
 
+template <class T>
+class ASTPtrVec {
+private:
+	using RawVec = std::vector<ASTPointer<T>>;
+	using ConstRawVec = std::vector<ASTPointer<T const>>;
+	using ConstPtrVec = ASTPtrVec<T const>;
+
+public:
+	static_assert(!std::is_const_v<T>);
+
+	ASTPtrVec() : m_raw() {}
+
+	/* implicit */ ASTPtrVec(RawVec const& _vec) : m_raw(_vec) {}
+
+	/* implicit */ ASTPtrVec(RawVec&& _vec) : m_raw(std::move(_vec)) {}
+
+	/* implicit */ operator RawVec const&() const { return get(); }
+	/* implicit */ operator ConstRawVec const&() const { return m_const.get(); };
+	/* implicit */ operator ConstPtrVec const&() const { return m_const; }
+
+	RawVec const& get() const
+	{
+		return m_raw;
+	}
+
+private:
+	RawVec m_raw;
+	ASTPtrVec<T const> m_const = m_raw;
+};
+
+template <class T>
+class ASTPtrVec<T const>
+{
+private:
+    using RawVec = std::vector<ASTPointer<T const>>;
+    using MutRawVec = std::vector<ASTPointer<T>>;
+
+public:
+	static_assert(!std::is_const_v<T>);
+
+	ASTPtrVec() : m_raw() {}
+
+	/* implicit */ ASTPtrVec(MutRawVec const& _vec) : m_raw(rawFromMut(_vec)) {}
+	/* implicit */ ASTPtrVec(MutRawVec&& _vec) : m_raw(rawFromMut(std::move(_vec))) {}
+
+	/* implicit */ ASTPtrVec(RawVec const& _vec) : m_raw(_vec) {}
+	/* implicit */ ASTPtrVec(RawVec && _vec) : m_raw(std::move(_vec)) {}
+
+	/* implicit */ operator RawVec const&() const { return get(); }
+
+	RawVec const& get() const { return m_raw; }
+
+private:
+	static RawVec rawFromMut(MutRawVec const& _mutVec)
+	{
+		RawVec ret;
+		ret.reserve(_mutVec.size());
+		ret.insert(ret.end(), _mutVec.begin(), _mutVec.end());
+
+		return ret;
+	}
+
+	static RawVec rawFromMut(MutRawVec&& _mutVec)
+	{
+		RawVec ret;
+		ret.reserve(_mutVec.size());
+		ret.insert(ret.end(), std::make_move_iterator(_mutVec.begin()), std::make_move_iterator(_mutVec.end()));
+
+		return ret;
+	}
+
+    RawVec m_raw;
+};
 }
 }
