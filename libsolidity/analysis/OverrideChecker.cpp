@@ -135,7 +135,7 @@ vector<ContractDefinition const*> resolveDirectBaseContracts(ContractDefinition 
 {
 	vector<ContractDefinition const*> resolvedContracts;
 
-	for (ASTPointer<InheritanceSpecifier> const& specifier: _contract.baseContracts())
+	for (ASTPointer<InheritanceSpecifier const> const& specifier: _contract.baseContracts())
 	{
 		Declaration const* baseDecl =
 			specifier->name().annotation().referencedDeclaration;

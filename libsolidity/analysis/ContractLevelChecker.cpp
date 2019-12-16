@@ -259,7 +259,7 @@ void ContractLevelChecker::checkBaseConstructorArguments(ContractDefinition cons
 						);
 				}
 
-		for (ASTPointer<InheritanceSpecifier> const& base: contract->baseContracts())
+		for (ASTPointer<InheritanceSpecifier const> const& base: contract->baseContracts())
 		{
 			ContractDefinition const* baseContract = dynamic_cast<ContractDefinition const*>(
 				base->name().annotation().referencedDeclaration

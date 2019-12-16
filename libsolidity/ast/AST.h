@@ -412,8 +412,12 @@ public:
 	void accept(ASTVisitor& _visitor) override;
 	void accept(ASTConstVisitor& _visitor) const override;
 
-	std::vector<ASTPointer<InheritanceSpecifier>> const& baseContracts() const { return m_baseContracts; }
-	std::vector<ASTPointer<ASTNode>> const& subNodes() const { return m_subNodes; }
+	std::vector<ASTPointer<InheritanceSpecifier>> const& baseContracts() { return m_baseContracts; }
+	std::vector<ASTPointer<InheritanceSpecifier const>> const& baseContracts() const { return m_baseContracts; }
+
+	std::vector<ASTPointer<ASTNode>> const& subNodes() { return m_subNodes; }
+	std::vector<ASTPointer<ASTNode const>> const& subNodes() const { return m_subNodes; }
+
 	std::vector<UsingForDirective const*> usingForDirectives() const { return filteredNodes<UsingForDirective>(m_subNodes); }
 	std::vector<StructDefinition const*> definedStructs() const { return filteredNodes<StructDefinition>(m_subNodes); }
 	std::vector<EnumDefinition const*> definedEnums() const { return filteredNodes<EnumDefinition>(m_subNodes); }
@@ -459,8 +463,8 @@ public:
 	bool abstract() const { return m_abstract; }
 
 private:
-	std::vector<ASTPointer<InheritanceSpecifier>> m_baseContracts;
-	std::vector<ASTPointer<ASTNode>> m_subNodes;
+	ASTPtrVec<InheritanceSpecifier> m_baseContracts;
+	ASTPtrVec<ASTNode> m_subNodes;
 	ContractKind m_contractKind;
 	bool m_abstract{false};
 

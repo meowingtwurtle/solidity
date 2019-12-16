@@ -41,8 +41,8 @@ bool SMTEncoder::visit(ContractDefinition const& _contract)
 
 	for (auto const& node: _contract.subNodes())
 		if (
-			!dynamic_pointer_cast<FunctionDefinition>(node) &&
-			!dynamic_pointer_cast<VariableDeclaration>(node)
+			!dynamic_pointer_cast<FunctionDefinition const>(node) &&
+			!dynamic_pointer_cast<VariableDeclaration const>(node)
 		)
 			node->accept(*this);
 
