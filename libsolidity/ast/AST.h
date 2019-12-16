@@ -537,14 +537,15 @@ public:
 	void accept(ASTVisitor& _visitor) override;
 	void accept(ASTConstVisitor& _visitor) const override;
 
-	std::vector<ASTPointer<VariableDeclaration>> const& members() const { return m_members; }
+    std::vector<ASTPointer<VariableDeclaration>> const& members() { return m_members; }
+	std::vector<ASTPointer<VariableDeclaration const>> const& members() const { return m_members; }
 
 	TypePointer type() const override;
 
 	TypeDeclarationAnnotation& annotation() const override;
 
 private:
-	std::vector<ASTPointer<VariableDeclaration>> m_members;
+	ASTPtrVec<VariableDeclaration> m_members;
 };
 
 class EnumDefinition: public Declaration

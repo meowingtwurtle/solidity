@@ -2114,7 +2114,7 @@ string StructType::toString(bool _short) const
 MemberList::MemberMap StructType::nativeMembers(ContractDefinition const*) const
 {
 	MemberList::MemberMap members;
-	for (ASTPointer<VariableDeclaration> const& variable: m_struct.members())
+	for (ASTPointer<VariableDeclaration const> const& variable: m_struct.members())
 	{
 		TypePointer type = variable->annotation().type;
 		solAssert(type, "");
@@ -2152,7 +2152,7 @@ TypeResult StructType::interfaceType(bool _inLibrary) const
 		// Check that all members have interface types.
 		// Return an error if at least one struct member does not have a type.
 		// This might happen, for example, if the type of the member does not exist.
-		for (ASTPointer<VariableDeclaration> const& variable: _struct.members())
+		for (ASTPointer<VariableDeclaration const> const& variable: _struct.members())
 		{
 			// If the struct member does not have a type return false.
 			// A TypeError is expected in this case.
@@ -2294,7 +2294,7 @@ u256 StructType::memoryOffsetOfMember(string const& _name) const
 TypePointers StructType::memoryMemberTypes() const
 {
 	TypePointers types;
-	for (ASTPointer<VariableDeclaration> const& variable: m_struct.members())
+	for (ASTPointer<VariableDeclaration const> const& variable: m_struct.members())
 		if (variable->annotation().type->canLiveOutsideStorage())
 			types.push_back(variable->annotation().type);
 	return types;
@@ -2303,7 +2303,7 @@ TypePointers StructType::memoryMemberTypes() const
 set<string> StructType::membersMissingInMemory() const
 {
 	set<string> missing;
-	for (ASTPointer<VariableDeclaration> const& variable: m_struct.members())
+	for (ASTPointer<VariableDeclaration const> const& variable: m_struct.members())
 		if (!variable->annotation().type->canLiveOutsideStorage())
 			missing.insert(variable->name());
 	return missing;
