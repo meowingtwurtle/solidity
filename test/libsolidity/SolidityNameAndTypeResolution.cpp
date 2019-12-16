@@ -53,8 +53,8 @@ BOOST_AUTO_TEST_CASE(function_no_implementation)
 		}
 	)";
 	sourceUnit = parseAndAnalyse(text);
-	std::vector<ASTPointer<ASTNode>> nodes = sourceUnit->nodes();
-	ContractDefinition* contract = dynamic_cast<ContractDefinition*>(nodes[1].get());
+	std::vector<ASTPointer<ASTNode const>> nodes = sourceUnit->nodes();
+	ContractDefinition const* contract = dynamic_cast<ContractDefinition const*>(nodes[1].get());
 	BOOST_REQUIRE(contract);
 	BOOST_CHECK(!contract->annotation().unimplementedFunctions.empty());
 	BOOST_CHECK(!contract->definedFunctions()[0]->isImplemented());
@@ -68,9 +68,9 @@ BOOST_AUTO_TEST_CASE(abstract_contract)
 		contract derived is base { function foo() public override {} }
 	)";
 	sourceUnit = parseAndAnalyse(text);
-	std::vector<ASTPointer<ASTNode>> nodes = sourceUnit->nodes();
-	ContractDefinition* base = dynamic_cast<ContractDefinition*>(nodes[1].get());
-	ContractDefinition* derived = dynamic_cast<ContractDefinition*>(nodes[2].get());
+	std::vector<ASTPointer<ASTNode const>> nodes = sourceUnit->nodes();
+	ContractDefinition const* base = dynamic_cast<ContractDefinition const*>(nodes[1].get());
+	ContractDefinition const* derived = dynamic_cast<ContractDefinition const*>(nodes[2].get());
 	BOOST_REQUIRE(base);
 	BOOST_CHECK(!base->annotation().unimplementedFunctions.empty());
 	BOOST_CHECK(!base->definedFunctions()[0]->isImplemented());
@@ -87,9 +87,9 @@ BOOST_AUTO_TEST_CASE(abstract_contract_with_overload)
 		abstract contract derived is base { function foo(uint) public {} }
 	)";
 	sourceUnit = parseAndAnalyse(text);
-	std::vector<ASTPointer<ASTNode>> nodes = sourceUnit->nodes();
-	ContractDefinition* base = dynamic_cast<ContractDefinition*>(nodes[1].get());
-	ContractDefinition* derived = dynamic_cast<ContractDefinition*>(nodes[2].get());
+	std::vector<ASTPointer<ASTNode const>> nodes = sourceUnit->nodes();
+	ContractDefinition const* base = dynamic_cast<ContractDefinition const*>(nodes[1].get());
+	ContractDefinition const* derived = dynamic_cast<ContractDefinition const*>(nodes[2].get());
 	BOOST_REQUIRE(base);
 	BOOST_CHECK(!base->annotation().unimplementedFunctions.empty());
 	BOOST_REQUIRE(derived);
@@ -104,9 +104,9 @@ BOOST_AUTO_TEST_CASE(implement_abstract_via_constructor)
 		abstract contract foo is base { constructor() public {} }
 	)";
 	sourceUnit = parseAndAnalyse(text);
-	std::vector<ASTPointer<ASTNode>> nodes = sourceUnit->nodes();
+	std::vector<ASTPointer<ASTNode const>> nodes = sourceUnit->nodes();
 	BOOST_CHECK_EQUAL(nodes.size(), 3);
-	ContractDefinition* derived = dynamic_cast<ContractDefinition*>(nodes[2].get());
+	ContractDefinition const* derived = dynamic_cast<ContractDefinition const*>(nodes[2].get());
 	BOOST_REQUIRE(derived);
 	BOOST_CHECK(!derived->annotation().unimplementedFunctions.empty());
 }
@@ -122,8 +122,8 @@ BOOST_AUTO_TEST_CASE(function_canonical_signature)
 		}
 	)";
 	sourceUnit = parseAndAnalyse(text);
-	for (ASTPointer<ASTNode> const& node: sourceUnit->nodes())
-		if (ContractDefinition* contract = dynamic_cast<ContractDefinition*>(node.get()))
+	for (ASTPointer<ASTNode const> const& node: sourceUnit->nodes())
+		if (ContractDefinition const* contract = dynamic_cast<ContractDefinition const*>(node.get()))
 		{
 			auto functions = contract->definedFunctions();
 			BOOST_CHECK_EQUAL("foo(uint256,uint64,bool)", functions[0]->externalSignature());
@@ -141,8 +141,8 @@ BOOST_AUTO_TEST_CASE(function_canonical_signature_type_aliases)
 		}
 	)";
 	sourceUnit = parseAndAnalyse(text);
-	for (ASTPointer<ASTNode> const& node: sourceUnit->nodes())
-		if (ContractDefinition* contract = dynamic_cast<ContractDefinition*>(node.get()))
+	for (ASTPointer<ASTNode const> const& node: sourceUnit->nodes())
+		if (ContractDefinition const* contract = dynamic_cast<ContractDefinition const*>(node.get()))
 		{
 			auto functions = contract->definedFunctions();
 			if (functions.empty())
@@ -165,8 +165,8 @@ BOOST_AUTO_TEST_CASE(function_external_types)
 		}
 	)";
 	sourceUnit = parseAndAnalyse(text);
-	for (ASTPointer<ASTNode> const& node: sourceUnit->nodes())
-		if (ContractDefinition* contract = dynamic_cast<ContractDefinition*>(node.get()))
+	for (ASTPointer<ASTNode const> const& node: sourceUnit->nodes())
+		if (ContractDefinition const* contract = dynamic_cast<ContractDefinition const*>(node.get()))
 		{
 			auto functions = contract->definedFunctions();
 			if (functions.empty())
@@ -188,8 +188,8 @@ BOOST_AUTO_TEST_CASE(enum_external_type)
 		}
 	)";
 	sourceUnit = parseAndAnalyse(text);
-	for (ASTPointer<ASTNode> const& node: sourceUnit->nodes())
-		if (ContractDefinition* contract = dynamic_cast<ContractDefinition*>(node.get()))
+	for (ASTPointer<ASTNode const> const& node: sourceUnit->nodes())
+		if (ContractDefinition const* contract = dynamic_cast<ContractDefinition const*>(node.get()))
 		{
 			auto functions = contract->definedFunctions();
 			if (functions.empty())
@@ -217,8 +217,8 @@ BOOST_AUTO_TEST_CASE(external_struct_signatures)
 	// are generated for external structs, but they are not yet supported
 	// in code generation and therefore cause an error in the TypeChecker.
 	SourceUnit const* sourceUnit = parseAnalyseAndReturnError(text, false, true, true).first;
-	for (ASTPointer<ASTNode> const& node: sourceUnit->nodes())
-		if (ContractDefinition* contract = dynamic_cast<ContractDefinition*>(node.get()))
+	for (ASTPointer<ASTNode const> const& node: sourceUnit->nodes())
+		if (ContractDefinition const* contract = dynamic_cast<ContractDefinition const*>(node.get()))
 		{
 			auto functions = contract->definedFunctions();
 			BOOST_REQUIRE(!functions.empty());
@@ -248,8 +248,8 @@ BOOST_AUTO_TEST_CASE(external_struct_signatures_in_libraries)
 	// are generated for external structs, but calldata structs are not yet supported
 	// in code generation and therefore cause an error in the TypeChecker.
 	SourceUnit const* sourceUnit = parseAnalyseAndReturnError(text, false, true, true).first;
-	for (ASTPointer<ASTNode> const& node: sourceUnit->nodes())
-		if (ContractDefinition* contract = dynamic_cast<ContractDefinition*>(node.get()))
+	for (ASTPointer<ASTNode const> const& node: sourceUnit->nodes())
+		if (ContractDefinition const* contract = dynamic_cast<ContractDefinition const*>(node.get()))
 		{
 			auto functions = contract->definedFunctions();
 			BOOST_REQUIRE(!functions.empty());
@@ -270,8 +270,8 @@ BOOST_AUTO_TEST_CASE(struct_with_mapping_in_library)
 		}
 	)";
 	SourceUnit const* sourceUnit = parseAndAnalyse(text);
-	for (ASTPointer<ASTNode> const& node: sourceUnit->nodes())
-		if (ContractDefinition* contract = dynamic_cast<ContractDefinition*>(node.get()))
+	for (ASTPointer<ASTNode const> const& node: sourceUnit->nodes())
+		if (ContractDefinition const* contract = dynamic_cast<ContractDefinition const*>(node.get()))
 		{
 			auto functions = contract->definedFunctions();
 			BOOST_REQUIRE(!functions.empty());

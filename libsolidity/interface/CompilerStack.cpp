@@ -874,7 +874,7 @@ StringMap CompilerStack::loadMissingSources(SourceUnit const& _ast, std::string 
 	solAssert(m_stackState < ParsingPerformed, "");
 	StringMap newSources;
 	for (auto const& node: _ast.nodes())
-		if (ImportDirective const* import = dynamic_cast<ImportDirective*>(node.get()))
+		if (ImportDirective const* import = dynamic_cast<ImportDirective const*>(node.get()))
 		{
 			solAssert(!import->path().empty(), "Import path cannot be empty.");
 

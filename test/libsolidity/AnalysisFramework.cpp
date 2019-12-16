@@ -133,10 +133,10 @@ string AnalysisFramework::formatError(Error const& _error) const
 
 ContractDefinition const* AnalysisFramework::retrieveContractByName(SourceUnit const& _source, string const& _name)
 {
-	ContractDefinition* contract = nullptr;
+	ContractDefinition const* contract = nullptr;
 
-	for (shared_ptr<ASTNode> const& node: _source.nodes())
-		if ((contract = dynamic_cast<ContractDefinition*>(node.get())) && contract->name() == _name)
+	for (shared_ptr<ASTNode const> const& node: _source.nodes())
+		if ((contract = dynamic_cast<ContractDefinition const*>(node.get())) && contract->name() == _name)
 			return contract;
 
 	return nullptr;
