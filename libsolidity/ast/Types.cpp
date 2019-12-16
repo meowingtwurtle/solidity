@@ -2364,7 +2364,7 @@ BoolResult EnumType::isExplicitlyConvertibleTo(Type const& _convertTo) const
 unsigned EnumType::memberValue(ASTString const& _member) const
 {
 	unsigned index = 0;
-	for (ASTPointer<EnumValue> const& decl: m_enum.members())
+	for (ASTPointer<EnumValue const> const& decl: m_enum.members())
 	{
 		if (decl->name() == _member)
 			return index;
@@ -3409,7 +3409,7 @@ MemberList::MemberMap TypeType::nativeMembers(ContractDefinition const* _current
 	{
 		EnumDefinition const& enumDef = dynamic_cast<EnumType const&>(*m_actualType).enumDefinition();
 		auto enumType = TypeProvider::enumType(enumDef);
-		for (ASTPointer<EnumValue> const& enumValue: enumDef.members())
+		for (ASTPointer<EnumValue const> const& enumValue: enumDef.members())
 			members.emplace_back(enumValue->name(), enumType);
 	}
 	return members;

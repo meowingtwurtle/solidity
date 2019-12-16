@@ -560,14 +560,15 @@ public:
 	void accept(ASTVisitor& _visitor) override;
 	void accept(ASTConstVisitor& _visitor) const override;
 
-	std::vector<ASTPointer<EnumValue>> const& members() const { return m_members; }
+	std::vector<ASTPointer<EnumValue>> const& members() { return m_members; }
+	std::vector<ASTPointer<EnumValue const>> const& members() const { return m_members; }
 
 	TypePointer type() const override;
 
 	TypeDeclarationAnnotation& annotation() const override;
 
 private:
-	std::vector<ASTPointer<EnumValue>> m_members;
+	ASTPtrVec<EnumValue> m_members;
 };
 
 /**
