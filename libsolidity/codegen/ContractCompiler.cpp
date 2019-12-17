@@ -845,11 +845,11 @@ bool ContractCompiler::visit(TryStatement const& _tryStatement)
 	return false;
 }
 
-void ContractCompiler::handleCatch(vector<ASTPointer<TryCatchClause>> const& _catchClauses)
+void ContractCompiler::handleCatch(vector<ASTPointer<TryCatchClause const>> const& _catchClauses)
 {
 	// Stack is empty.
-	ASTPointer<TryCatchClause> structured{};
-	ASTPointer<TryCatchClause> fallback{};
+	ASTPointer<TryCatchClause const> structured{};
+	ASTPointer<TryCatchClause const> fallback{};
 	for (size_t i = 1; i < _catchClauses.size(); ++i)
 		if (_catchClauses[i]->errorName() == "Error")
 			structured = _catchClauses[i];

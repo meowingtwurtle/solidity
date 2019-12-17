@@ -1326,11 +1326,13 @@ public:
 	void accept(ASTConstVisitor& _visitor) const override;
 
 	Expression const& externalCall() const { return *m_externalCall; }
-	std::vector<ASTPointer<TryCatchClause>> const& clauses() const { return m_clauses; }
+
+	std::vector<ASTPointer<TryCatchClause>> const& clauses() { return m_clauses; }
+	std::vector<ASTPointer<TryCatchClause const>> const& clauses() const { return m_clauses; }
 
 private:
 	ASTPointer<Expression> m_externalCall;
-	std::vector<ASTPointer<TryCatchClause>> m_clauses;
+	ASTPtrVec<TryCatchClause> m_clauses;
 };
 
 /**
