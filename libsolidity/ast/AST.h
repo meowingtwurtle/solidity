@@ -633,11 +633,20 @@ public:
 	{
 	}
 
-	std::vector<ASTPointer<VariableDeclaration>> const& parameters() const { return m_parameters->parameters(); }
-	ASTPointer<OverrideSpecifier> const& overrides() const { return m_overrides; }
-	std::vector<ASTPointer<VariableDeclaration>> const& returnParameters() const { return m_returnParameters->parameters(); }
+	std::vector<ASTPointer<VariableDeclaration>> const& parameters() { return m_parameters->parameters(); }
+	std::vector<ASTPointer<VariableDeclaration const>> const& parameters() const { return std::as_const(*m_parameters).parameters(); }
+
+	ASTPointer<OverrideSpecifier> const& overrides() { return m_overrides; }
+	ASTPointer<OverrideSpecifier const> overrides() const { return m_overrides; }
+
+	std::vector<ASTPointer<VariableDeclaration>> const& returnParameters() { return m_returnParameters->parameters(); }
+	std::vector<ASTPointer<VariableDeclaration const>> const& returnParameters() const { return std::as_const(*m_returnParameters).parameters(); }
+
 	ParameterList const& parameterList() const { return *m_parameters; }
-	ASTPointer<ParameterList> const& returnParameterList() const { return m_returnParameters; }
+
+	ASTPointer<ParameterList> const& returnParameterList() { return m_returnParameters; }
+	ASTPointer<ParameterList const> returnParameterList() const { return m_returnParameters; }
+
 	bool markedVirtual() const { return m_isVirtual; }
 	virtual bool virtualSemantics() const { return markedVirtual(); }
 
@@ -1054,10 +1063,17 @@ public:
 	void accept(ASTVisitor& _visitor) override;
 	void accept(ASTConstVisitor& _visitor) const override;
 
-	std::vector<ASTPointer<VariableDeclaration>> const& parameterTypes() const { return m_parameterTypes->parameters(); }
-	std::vector<ASTPointer<VariableDeclaration>> const& returnParameterTypes() const { return m_returnTypes->parameters(); }
-	ASTPointer<ParameterList> const& parameterTypeList() const { return m_parameterTypes; }
-	ASTPointer<ParameterList> const& returnParameterTypeList() const { return m_returnTypes; }
+	std::vector<ASTPointer<VariableDeclaration>> const& parameterTypes() { return m_parameterTypes->parameters(); }
+	std::vector<ASTPointer<VariableDeclaration const>> const& parameterTypes() const { return std::as_const(*m_parameterTypes).parameters(); }
+
+	std::vector<ASTPointer<VariableDeclaration>> const& returnParameterTypes() { return m_returnTypes->parameters(); }
+	std::vector<ASTPointer<VariableDeclaration const>> const& returnParameterTypes() const { return std::as_const(*m_returnTypes).parameters(); }
+
+	ASTPointer<ParameterList> const& parameterTypeList() { return m_parameterTypes; }
+	ASTPointer<ParameterList const> parameterTypeList() const { return m_parameterTypes; }
+
+	ASTPointer<ParameterList> const& returnParameterTypeList() { return m_returnTypes; }
+	ASTPointer<ParameterList const> returnParameterTypeList() const { return m_returnTypes; }
 
 	Visibility visibility() const
 	{

@@ -2473,12 +2473,12 @@ FunctionType::FunctionType(FunctionDefinition const& _function, bool _isInternal
 	if (_isInternal && m_stateMutability == StateMutability::Payable)
 		m_stateMutability = StateMutability::NonPayable;
 
-	for (ASTPointer<VariableDeclaration> const& var: _function.parameters())
+	for (ASTPointer<VariableDeclaration const> const& var: _function.parameters())
 	{
 		m_parameterNames.push_back(var->name());
 		m_parameterTypes.push_back(var->annotation().type);
 	}
-	for (ASTPointer<VariableDeclaration> const& var: _function.returnParameters())
+	for (ASTPointer<VariableDeclaration const> const& var: _function.returnParameters())
 	{
 		m_returnParameterNames.push_back(var->name());
 		m_returnParameterTypes.push_back(var->annotation().type);
@@ -2565,7 +2565,7 @@ FunctionType::FunctionType(EventDefinition const& _event):
 	m_stateMutability(StateMutability::NonPayable),
 	m_declaration(&_event)
 {
-	for (ASTPointer<VariableDeclaration> const& var: _event.parameters())
+	for (ASTPointer<VariableDeclaration const> const& var: _event.parameters())
 	{
 		m_parameterNames.push_back(var->name());
 		m_parameterTypes.push_back(var->annotation().type);
@@ -2631,7 +2631,7 @@ FunctionTypePointer FunctionType::newExpressionType(ContractDefinition const& _c
 
 	if (constructor)
 	{
-		for (ASTPointer<VariableDeclaration> const& var: constructor->parameters())
+		for (ASTPointer<VariableDeclaration const> const& var: constructor->parameters())
 		{
 			parameterNames.push_back(var->name());
 			parameters.push_back(var->annotation().type);
@@ -3428,7 +3428,7 @@ ModifierType::ModifierType(ModifierDefinition const& _modifier)
 {
 	TypePointers params;
 	params.reserve(_modifier.parameters().size());
-	for (ASTPointer<VariableDeclaration> const& var: _modifier.parameters())
+	for (ASTPointer<VariableDeclaration const> const& var: _modifier.parameters())
 		params.push_back(var->annotation().type);
 	swap(params, m_parameterTypes);
 }

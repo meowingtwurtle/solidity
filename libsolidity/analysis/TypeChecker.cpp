@@ -384,12 +384,12 @@ bool TypeChecker::visit(FunctionDefinition const& _function)
 				"Use \"pragma experimental ABIEncoderV2;\" to enable the feature."
 			);
 	};
-	for (ASTPointer<VariableDeclaration> const& var: _function.parameters())
+	for (ASTPointer<VariableDeclaration const> const& var: _function.parameters())
 	{
 		checkArgumentAndReturnParameter(*var);
 		var->accept(*this);
 	}
-	for (ASTPointer<VariableDeclaration> const& var: _function.returnParameters())
+	for (ASTPointer<VariableDeclaration const> const& var: _function.returnParameters())
 	{
 		checkArgumentAndReturnParameter(*var);
 		var->accept(*this);
@@ -553,8 +553,8 @@ void TypeChecker::visitManually(
 	}
 
 	auto const* declaration = &dereference(*_modifier.name());
-	vector<ASTPointer<VariableDeclaration>> emptyParameterList;
-	vector<ASTPointer<VariableDeclaration>> const* parameters = nullptr;
+	vector<ASTPointer<VariableDeclaration const>> emptyParameterList;
+	vector<ASTPointer<VariableDeclaration const>> const* parameters = nullptr;
 	if (auto modifierDecl = dynamic_cast<ModifierDefinition const*>(declaration))
 		parameters = &modifierDecl->parameters();
 	else
@@ -606,7 +606,7 @@ bool TypeChecker::visit(EventDefinition const& _eventDef)
 {
 	solAssert(_eventDef.visibility() > Visibility::Internal, "");
 	unsigned numIndexed = 0;
-	for (ASTPointer<VariableDeclaration> const& var: _eventDef.parameters())
+	for (ASTPointer<VariableDeclaration const> const& var: _eventDef.parameters())
 	{
 		if (var->isIndexed())
 			numIndexed++;

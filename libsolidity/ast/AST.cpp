@@ -471,7 +471,7 @@ bool VariableDeclaration::isCallableOrCatchParameter() const
 	if (isReturnParameter() || isTryCatchParameter())
 		return true;
 
-	vector<ASTPointer<VariableDeclaration>> const* parameters = nullptr;
+	vector<ASTPointer<VariableDeclaration const>> const* parameters = nullptr;
 
 	if (auto const* funTypeName = dynamic_cast<FunctionTypeName const*>(scope()))
 		parameters = &funTypeName->parameterTypes();
@@ -492,7 +492,7 @@ bool VariableDeclaration::isLocalOrReturn() const
 
 bool VariableDeclaration::isReturnParameter() const
 {
-	vector<ASTPointer<VariableDeclaration>> const* returnParameters = nullptr;
+	vector<ASTPointer<VariableDeclaration const>> const* returnParameters = nullptr;
 
 	if (auto const* funTypeName = dynamic_cast<FunctionTypeName const*>(scope()))
 		returnParameters = &funTypeName->returnParameterTypes();
