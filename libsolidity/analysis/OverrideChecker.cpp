@@ -214,11 +214,17 @@ size_t OverrideProxy::id() const
 	}, m_item);
 }
 
-shared_ptr<OverrideSpecifier> OverrideProxy::overrides() const
+shared_ptr<OverrideSpecifier const> OverrideProxy::overrides() const
 {
-	return std::visit(GenericVisitor{
-		[&](auto const* _item) { return _item->overrides(); }
-	}, m_item);
+	return std::visit(
+		GenericVisitor{
+			[&](auto const* _item) {
+				shared_ptr<OverrideSpecifier const> ret = _item->overrides(); // Ensure implicit conversion
+				return ret;
+			}
+		},
+		m_item
+	);
 }
 
 set<OverrideProxy> OverrideProxy::baseFunctions() const
