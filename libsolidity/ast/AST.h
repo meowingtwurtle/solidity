@@ -798,7 +798,9 @@ public:
 	void accept(ASTConstVisitor& _visitor) const override;
 
 	TypeName* typeName() const { return m_typeName.get(); }
-	ASTPointer<Expression> const& value() const { return m_value; }
+
+	ASTPointer<Expression> const& value() { return m_value; }
+	ASTPointer<Expression const> value() const { return m_value; }
 
 	bool isLValue() const override;
 	bool isPartOfExternalInterface() const override { return isPublic(); }
@@ -834,7 +836,10 @@ public:
 	bool isStateVariable() const { return m_isStateVariable; }
 	bool isIndexed() const { return m_isIndexed; }
 	bool isConstant() const { return m_isConstant; }
-	ASTPointer<OverrideSpecifier> const& overrides() const { return m_overrides; }
+
+	ASTPointer<OverrideSpecifier> const& overrides() { return m_overrides; }
+	ASTPointer<OverrideSpecifier const> overrides() const { return m_overrides; }
+
 	Location referenceLocation() const { return m_location; }
 	/// @returns a set of allowed storage locations for the variable.
 	std::set<Location> allowedDataLocations() const;

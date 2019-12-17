@@ -76,7 +76,7 @@ void ConstantEvaluator::endVisit(Identifier const& _identifier)
 	if (!variableDeclaration->isConstant())
 		return;
 
-	ASTPointer<Expression> const& value = variableDeclaration->value();
+	ASTPointer<Expression const> const& value = variableDeclaration->value();
 	if (!value)
 		return;
 	else if (!m_types->count(value.get()))
