@@ -1502,7 +1502,9 @@ public:
 	void accept(ASTVisitor& _visitor) override;
 	void accept(ASTConstVisitor& _visitor) const override;
 
-	std::vector<ASTPointer<VariableDeclaration>> const& declarations() const { return m_variables; }
+	std::vector<ASTPointer<VariableDeclaration>> const& declarations() { return m_variables; }
+	std::vector<ASTPointer<VariableDeclaration const>> const& declarations() const { return m_variables; }
+
 	Expression const* initialValue() const { return m_initialValue.get(); }
 
 private:
@@ -1510,7 +1512,7 @@ private:
 	/// Note that the ``m_value`` member of these is unused. Instead, ``m_initialValue``
 	/// below is used, because the initial value can be a single expression assigned
 	/// to all variables.
-	std::vector<ASTPointer<VariableDeclaration>> m_variables;
+	ASTPtrVec<VariableDeclaration> m_variables;
 	/// The assigned expression / initial value.
 	ASTPointer<Expression> m_initialValue;
 };

@@ -993,10 +993,10 @@ namespace
  * @returns a suggested left-hand-side of a multi-variable declaration contairing
  * the variable declarations given in @a _decls.
  */
-string createTupleDecl(vector<ASTPointer<VariableDeclaration>> const& _decls)
+string createTupleDecl(vector<ASTPointer<VariableDeclaration const>> const& _decls)
 {
 	vector<string> components;
-	for (ASTPointer<VariableDeclaration> const& decl: _decls)
+	for (ASTPointer<VariableDeclaration const> const& decl: _decls)
 		if (decl)
 		{
 			solAssert(decl->annotation().type, "");
@@ -1011,9 +1011,9 @@ string createTupleDecl(vector<ASTPointer<VariableDeclaration>> const& _decls)
 		return "(" + boost::algorithm::join(components, ", ") + ")";
 }
 
-bool typeCanBeExpressed(vector<ASTPointer<VariableDeclaration>> const& decls)
+bool typeCanBeExpressed(vector<ASTPointer<VariableDeclaration const>> const& decls)
 {
-	for (ASTPointer<VariableDeclaration> const& decl: decls)
+	for (ASTPointer<VariableDeclaration const> const& decl: decls)
 	{
 		// skip empty tuples (they can be expressed of course)
 		if (!decl)
@@ -1088,7 +1088,7 @@ bool TypeChecker::visit(VariableDeclarationStatement const& _statement)
 	else
 		valueTypes = TypePointers{type(*_statement.initialValue())};
 
-	vector<ASTPointer<VariableDeclaration>> const& variables = _statement.declarations();
+	vector<ASTPointer<VariableDeclaration const>> const& variables = _statement.declarations();
 	if (variables.empty())
 		// We already have an error for this in the SyntaxChecker.
 		solAssert(m_errorReporter.hasErrors(), "");
