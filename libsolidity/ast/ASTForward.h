@@ -134,6 +134,15 @@ public:
 	}
 
 private:
+	friend auto begin(ASTPtrVec& _vec) { return std::begin(_vec.m_raw); }
+	friend auto end(ASTPtrVec& _vec) { return std::end(_vec.m_raw); }
+
+	friend auto begin(ASTPtrVec const& _vec) { return std::begin(_vec.m_raw); }
+	friend auto end(ASTPtrVec const& _vec) { return std::end(_vec.m_raw); }
+
+	friend auto cbegin(ASTPtrVec const& _vec) { return std::cbegin(_vec.m_raw); }
+	friend auto cend(ASTPtrVec const& _vec) { return std::cend(_vec.m_raw); }
+
 	RawVec m_raw;
 	ASTPtrVec<T const> m_const = m_raw;
 };
@@ -161,6 +170,15 @@ public:
 	RawVec const& get() const { return m_raw; }
 
 private:
+	friend auto begin(ASTPtrVec& _vec) { return std::begin(_vec.m_raw); }
+	friend auto end(ASTPtrVec& _vec) { return std::end(_vec.m_raw); }
+
+	friend auto begin(ASTPtrVec const& _vec) { return std::begin(_vec.m_raw); }
+	friend auto end(ASTPtrVec const& _vec) { return std::end(_vec.m_raw); }
+
+	friend auto cbegin(ASTPtrVec const& _vec) { return std::cbegin(_vec.m_raw); }
+	friend auto cend(ASTPtrVec const& _vec) { return std::cend(_vec.m_raw); }
+
 	static RawVec rawFromMut(MutRawVec const& _mutVec)
 	{
 		RawVec ret;
