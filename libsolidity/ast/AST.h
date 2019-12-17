@@ -917,7 +917,9 @@ public:
 	void accept(ASTVisitor& _visitor) override;
 	void accept(ASTConstVisitor& _visitor) const override;
 
-	ASTPointer<Identifier> const& name() const { return m_modifierName; }
+	ASTPointer<Identifier> const& name() { return m_modifierName; }
+	ASTPointer<Identifier const> name() const { return m_modifierName; }
+
 	// Returns nullptr if no argument list was given (``mod``).
 	// If an argument list is given (``mod(...)``), the arguments are returned
 	// as a vector of expressions. Note that this vector can be empty (``mod()``).
