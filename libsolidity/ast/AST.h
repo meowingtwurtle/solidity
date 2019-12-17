@@ -1207,10 +1207,11 @@ public:
 	void accept(ASTVisitor& _visitor) override;
 	void accept(ASTConstVisitor& _visitor) const override;
 
-	std::vector<ASTPointer<Statement>> const& statements() const { return m_statements; }
+	std::vector<ASTPointer<Statement>> const& statements() { return m_statements; }
+	std::vector<ASTPointer<Statement const>> const& statements() const { return m_statements; }
 
 private:
-	std::vector<ASTPointer<Statement>> m_statements;
+	ASTPtrVec<Statement> m_statements;
 };
 
 /**
