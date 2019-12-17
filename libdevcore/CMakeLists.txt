@@ -25,6 +25,7 @@ set(sources
 	StringUtils.h
 	SwarmHash.cpp
 	SwarmHash.h
+	TypeTraits.h
 	UTF8.cpp
 	UTF8.h
 	vector_ref.h
