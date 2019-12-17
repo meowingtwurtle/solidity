@@ -1636,11 +1636,13 @@ public:
 	void accept(ASTVisitor& _visitor) override;
 	void accept(ASTConstVisitor& _visitor) const override;
 
-	std::vector<ASTPointer<Expression>> const& components() const { return m_components; }
+	std::vector<ASTPointer<Expression>> const& components() { return m_components; }
+	std::vector<ASTPointer<Expression const>> const& components() const { return m_components; }
+
 	bool isInlineArray() const { return m_isArray; }
 
 private:
-	std::vector<ASTPointer<Expression>> m_components;
+	ASTPtrVec<Expression> m_components;
 	bool m_isArray;
 };
 

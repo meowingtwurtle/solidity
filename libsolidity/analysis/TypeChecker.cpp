@@ -1391,7 +1391,7 @@ bool TypeChecker::visit(Assignment const& _assignment)
 
 bool TypeChecker::visit(TupleExpression const& _tuple)
 {
-	vector<ASTPointer<Expression>> const& components = _tuple.components();
+	vector<ASTPointer<Expression const>> const& components = _tuple.components();
 	TypePointers types;
 
 	if (_tuple.annotation().lValueRequested)
