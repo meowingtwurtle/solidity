@@ -30,7 +30,6 @@
 #include <boost/range/adaptor/reversed.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 
-#include <type_traits>
 
 using namespace std;
 using namespace dev;
@@ -148,13 +147,12 @@ vector<ContractDefinition const*> resolveDirectBaseContracts(ContractDefinition 
 	return resolvedContracts;
 }
 
-template <class UserDefinedTypeNameType, class = std::enable_if_t<std::is_same_v<std::remove_const_t<UserDefinedTypeNameType>, UserDefinedTypeName>>>
-vector<ASTPointer<UserDefinedTypeNameType>> sortByContract(vector<ASTPointer<UserDefinedTypeNameType>> const& _list)
+vector<ASTPointer<UserDefinedTypeName const>> sortByContract(vector<ASTPointer<UserDefinedTypeName const>> const& _list)
 {
 	auto sorted = _list;
 
 	stable_sort(sorted.begin(), sorted.end(),
-		[] (ASTPointer<UserDefinedTypeNameType> _a, ASTPointer<UserDefinedTypeNameType> _b) {
+		[] (ASTPointer<UserDefinedTypeName const> _a, ASTPointer<UserDefinedTypeName const> _b) {
 			if (!_a || !_b)
 				return _a < _b;
 
