@@ -467,7 +467,7 @@ void IRGeneratorForStatements::endVisit(FunctionCall const& _functionCall)
 
 	TypePointers parameterTypes = functionType->parameterTypes();
 	vector<ASTPointer<Expression const>> const& callArguments = _functionCall.arguments();
-	vector<ASTPointer<ASTString>> const& callArgumentNames = _functionCall.names();
+	vector<ASTPointer<ASTString const>> const& callArgumentNames = _functionCall.names();
 	if (!functionType->takesArbitraryParameters())
 		solAssert(callArguments.size() == parameterTypes.size(), "");
 
@@ -479,7 +479,7 @@ void IRGeneratorForStatements::endVisit(FunctionCall const& _functionCall)
 		// named arguments
 		for (auto const& parameterName: functionType->parameterNames())
 		{
-			auto const it = std::find_if(callArgumentNames.cbegin(), callArgumentNames.cend(), [&](ASTPointer<ASTString> const& _argName) {
+			auto const it = std::find_if(callArgumentNames.cbegin(), callArgumentNames.cend(), [&](ASTPointer<ASTString const> const& _argName) {
 				return *_argName == parameterName;
 			});
 

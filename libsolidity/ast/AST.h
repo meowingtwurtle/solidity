@@ -1728,15 +1728,17 @@ public:
 	void accept(ASTConstVisitor& _visitor) const override;
 
 	Expression const& expression() const { return *m_expression; }
-	std::vector<ASTPointer<Expression const>> arguments() const { return {m_arguments.begin(), m_arguments.end()}; }
-	std::vector<ASTPointer<ASTString>> const& names() const { return m_names; }
+	std::vector<ASTPointer<Expression const>> arguments() const { return m_arguments; }
+
+	std::vector<ASTPointer<ASTString>> const& names() { return m_names; }
+	std::vector<ASTPointer<ASTString const>> const& names() const { return m_names; }
 
 	FunctionCallAnnotation& annotation() const override;
 
 private:
 	ASTPointer<Expression> m_expression;
-	std::vector<ASTPointer<Expression>> m_arguments;
-	std::vector<ASTPointer<ASTString>> m_names;
+	ASTPtrVec<Expression> m_arguments;
+	ASTPtrVec<ASTString> m_names;
 };
 
 /**

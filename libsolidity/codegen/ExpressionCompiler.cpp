@@ -506,7 +506,7 @@ bool ExpressionCompiler::visit(FunctionCall const& _functionCall)
 
 	TypePointers parameterTypes = functionType->parameterTypes();
 	vector<ASTPointer<Expression const>> const& callArguments = _functionCall.arguments();
-	vector<ASTPointer<ASTString>> const& callArgumentNames = _functionCall.names();
+	vector<ASTPointer<ASTString const>> const& callArgumentNames = _functionCall.names();
 	if (!functionType->takesArbitraryParameters())
 		solAssert(callArguments.size() == parameterTypes.size(), "");
 

@@ -1902,7 +1902,7 @@ void TypeChecker::typeCheckFunctionGeneralChecks(
 
 	TypePointers const& parameterTypes = _functionType->parameterTypes();
 	vector<ASTPointer<Expression const>> const& arguments = _functionCall.arguments();
-	vector<ASTPointer<ASTString>> const& argumentNames = _functionCall.names();
+	vector<ASTPointer<ASTString const>> const& argumentNames = _functionCall.names();
 
 	// Check number of passed in arguments
 	if (
