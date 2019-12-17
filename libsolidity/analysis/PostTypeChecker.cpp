@@ -62,7 +62,7 @@ void PostTypeChecker::endVisit(ContractDefinition const&)
 
 void PostTypeChecker::endVisit(OverrideSpecifier const& _overrideSpecifier)
 {
-	for (ASTPointer<UserDefinedTypeName> const& override: _overrideSpecifier.overrides())
+	for (ASTPointer<UserDefinedTypeName const> const& override: _overrideSpecifier.overrides())
 	{
 		Declaration const* decl  = override->annotation().referencedDeclaration;
 		solAssert(decl, "Expected declaration to be resolved.");

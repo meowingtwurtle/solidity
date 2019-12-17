@@ -30,6 +30,7 @@
 #include <boost/range/adaptor/reversed.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 
+#include <type_traits>
 
 using namespace std;
 using namespace dev;
@@ -147,12 +148,13 @@ vector<ContractDefinition const*> resolveDirectBaseContracts(ContractDefinition 
 	return resolvedContracts;
 }
 
-vector<ASTPointer<UserDefinedTypeName>> sortByContract(vector<ASTPointer<UserDefinedTypeName>> const& _list)
+template <class UserDefinedTypeNameType, class = std::enable_if_t<std::is_same_v<std::remove_const_t<UserDefinedTypeNameType>, UserDefinedTypeName>>>
+vector<ASTPointer<UserDefinedTypeNameType>> sortByContract(vector<ASTPointer<UserDefinedTypeNameType>> const& _list)
 {
 	auto sorted = _list;
 
 	stable_sort(sorted.begin(), sorted.end(),
-		[] (ASTPointer<UserDefinedTypeName> _a, ASTPointer<UserDefinedTypeName> _b) {
+		[] (ASTPointer<UserDefinedTypeNameType> _a, ASTPointer<UserDefinedTypeNameType> _b) {
 			if (!_a || !_b)
 				return _a < _b;
 
@@ -717,7 +719,7 @@ set<ContractDefinition const*, OverrideChecker::CompareByID> OverrideChecker::re
 {
 	set<ContractDefinition const*, CompareByID> resolved;
 
-	for (ASTPointer<UserDefinedTypeName> const& override: _overrides.overrides())
+	for (ASTPointer<UserDefinedTypeName const> const& override: _overrides.overrides())
 	{
 		Declaration const* decl  = override->annotation().referencedDeclaration;
 		solAssert(decl, "Expected declaration to be resolved.");
@@ -742,7 +744,7 @@ void OverrideChecker::checkOverrideList(OverrideProxy _item, OverrideProxyBySign
 	if (_item.overrides() && specifiedContracts.size() != _item.overrides()->overrides().size())
 	{
 		// Sort by contract id to find duplicate for error reporting
-		vector<ASTPointer<UserDefinedTypeName>> list =
+		vector<ASTPointer<UserDefinedTypeName const>> list =
 			sortByContract(_item.overrides()->overrides());
 
 		// Find duplicates and output error

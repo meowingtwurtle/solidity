@@ -679,10 +679,11 @@ public:
 	void accept(ASTConstVisitor& _visitor) const override;
 
 	/// @returns the list of specific overrides, if any
-	std::vector<ASTPointer<UserDefinedTypeName>> const& overrides() const { return m_overrides; }
+	std::vector<ASTPointer<UserDefinedTypeName>> const& overrides() { return m_overrides; }
+	std::vector<ASTPointer<UserDefinedTypeName const>> const& overrides() const { return m_overrides; }
 
 protected:
-	std::vector<ASTPointer<UserDefinedTypeName>> m_overrides;
+	ASTPtrVec<UserDefinedTypeName> m_overrides;
 };
 
 class FunctionDefinition: public CallableDeclaration, public Documented, public ImplementationOptional
