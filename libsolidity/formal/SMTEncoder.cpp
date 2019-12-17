@@ -156,7 +156,7 @@ void SMTEncoder::visitFunctionOrModifier()
 	else
 	{
 		solAssert(m_modifierDepthStack.back() < int(function.modifiers().size()), "");
-		ASTPointer<ModifierInvocation> const& modifierInvocation = function.modifiers()[m_modifierDepthStack.back()];
+		ASTPointer<ModifierInvocation const> const& modifierInvocation = function.modifiers()[m_modifierDepthStack.back()];
 		solAssert(modifierInvocation, "");
 		auto refDecl = modifierInvocation->name()->annotation().referencedDeclaration;
 		if (dynamic_cast<ContractDefinition const*>(refDecl))

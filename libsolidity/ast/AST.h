@@ -724,7 +724,10 @@ public:
 	bool isReceive() const { return m_kind == Token::Receive; }
 	Token kind() const { return m_kind; }
 	bool isPayable() const { return m_stateMutability == StateMutability::Payable; }
-	std::vector<ASTPointer<ModifierInvocation>> const& modifiers() const { return m_functionModifiers; }
+
+	std::vector<ASTPointer<ModifierInvocation>> const& modifiers() { return m_functionModifiers; }
+	std::vector<ASTPointer<ModifierInvocation const>> const& modifiers() const { return m_functionModifiers; }
+
 	Block const& body() const { solAssert(m_body, ""); return *m_body; }
 	bool isVisibleInContract() const override
 	{
@@ -756,7 +759,7 @@ public:
 private:
 	StateMutability m_stateMutability;
 	Token const m_kind;
-	std::vector<ASTPointer<ModifierInvocation>> m_functionModifiers;
+	ASTPtrVec<ModifierInvocation> m_functionModifiers;
 	ASTPointer<Block> m_body;
 };
 

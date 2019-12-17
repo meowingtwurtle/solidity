@@ -1255,7 +1255,7 @@ void ContractCompiler::appendModifierOrFunctionCode()
 	}
 	else
 	{
-		ASTPointer<ModifierInvocation> const& modifierInvocation = m_currentFunction->modifiers()[m_modifierDepth];
+		ASTPointer<ModifierInvocation const> const& modifierInvocation = m_currentFunction->modifiers()[m_modifierDepth];
 
 		// constructor call should be excluded
 		if (dynamic_cast<ContractDefinition const*>(modifierInvocation->name()->annotation().referencedDeclaration))
